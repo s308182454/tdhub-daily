@@ -2,256 +2,433 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>TD-HUB · 周五日报 · 5月29日（双平台版）</title>
 <style>
-
+/* ===== 基础重置 & 移动端优先 ===== */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background:#f0f2f5; color:#333; font-size:14px; }
-.header { background:linear-gradient(135deg, #1a73e8, #0d47a1); color:white; padding:22px 32px; position:relative; }
-.header h1 { font-size:22px; margin-bottom:4px; font-weight:700; }
-.header .subtitle { font-size:13px; opacity:0.85; margin-top:4px; }
-.header .date { position:absolute; right:32px; top:22px; font-size:12px; opacity:0.8; }
-.container { max-width:1080px; margin:0 auto; padding:20px; }
-.section { background:white; border-radius:12px; padding:20px; margin-bottom:18px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-.section h2 { font-size:16px; color:#1a73e8; border-left:3px solid #1a73e8; padding-left:10px; margin-bottom:16px; }
-.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; margin-right:4px; font-weight:500; }
+body { font-family: -apple-system, "Microsoft YaHei", "PingFang SC", sans-serif; background:#f0f2f5; color:#333; font-size:14px; -webkit-font-smoothing:antialiased; }
+
+/* ===== 头部 ===== */
+.header {
+  background:linear-gradient(135deg, #1a73e8, #0d47a1);
+  color:white;
+  padding:16px 16px 14px;
+}
+.header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; }
+.header h1 { font-size:17px; font-weight:700; line-height:1.3; flex:1; }
+.header h1 span { font-size:11px; font-weight:400; opacity:0.8; }
+.header .date { font-size:10px; opacity:0.75; text-align:right; white-space:nowrap; margin-left:8px; padding-top:2px; }
+.header .subtitle { font-size:12px; opacity:0.85; line-height:1.5; }
+.header .platform-line { font-size:10px; opacity:0.65; margin-top:2px; }
+
+/* ===== 容器 ===== */
+.container { max-width:1080px; margin:0 auto; padding:12px; }
+
+/* ===== Section卡片 ===== */
+.section {
+  background:white;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);
+}
+.section h2 {
+  font-size:14px;
+  color:#1a73e8;
+  border-left:3px solid #1a73e8;
+  padding-left:8px;
+  margin-bottom:12px;
+  line-height:1.3;
+}
+
+/* ===== Badge标签 ===== */
+.badge { display:inline-block; padding:1px 6px; border-radius:3px; font-size:10px; margin-right:3px; font-weight:500; vertical-align:middle; }
 .badge-blue { background:#e8f0fe; color:#1a73e8; }
 .badge-red { background:#fce8e6; color:#d93025; }
 .badge-green { background:#e6f4ea; color:#137333; }
 .badge-orange { background:#fef7e0; color:#b06000; }
 .badge-purple { background:#f3e8fd; color:#7b1fa2; }
+.badge-teal { background:#e0f7f0; color:#00695c; }
 
-.signal-card { border:1px solid #e8e8e8; border-radius:10px; padding:16px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; background:#fafbfc; }
-.signal-card:hover { border-color:#1a73e8; box-shadow:0 3px 12px rgba(26,115,232,0.12); background:#fff; }
-.signal-card .signal-header { display:flex; justify-content:space-between; align-items:center; }
-.signal-card .signal-title { font-size:15px; font-weight:600; }
-.signal-card .signal-body { margin-top:10px; color:#555; font-size:13px; line-height:1.8; display:none; }
-.signal-card .signal-body strong { color:#333; }
-.signal-card.expanded .signal-body { display:block; }
-.signal-card .signal-recommend { margin-top:10px; padding:8px 12px; background:#e8f0fe; border-radius:6px; font-size:12px; color:#1a73e8; font-weight:500; display:none; }
-.signal-card.expanded .signal-recommend { display:block; }
+/* ===== 平台标签 ===== */
+.platform-tag { display:inline-block; padding:1px 7px; border-radius:10px; font-size:9px; font-weight:600; margin:0 3px; vertical-align:middle; }
+.platform-sgcc { background:#e8f0fe; color:#1a73e8; }
+.platform-csg { background:#e0f7f0; color:#00695c; }
+.new-badge { display:inline-block; background:#00695c; color:white; padding:1px 5px; border-radius:3px; font-size:8px; font-weight:700; margin-left:2px; vertical-align:middle; }
 
-.insight-card { border:1px solid #e8e8e8; border-radius:10px; padding:16px; margin-bottom:12px; background:#fff; }
-.insight-card .insight-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-.insight-card .insight-title { font-size:14px; font-weight:600; }
-.insight-card .insight-body { color:#555; font-size:13px; line-height:1.8; }
-
-.stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
-.stat-card { background:#f8f9fa; border-radius:10px; padding:14px; text-align:center; border:1px solid #eee; }
-.stat-card .stat-value { font-size:24px; font-weight:700; color:#1a73e8; }
-.stat-card .stat-label { font-size:11px; color:#5f6368; margin-top:4px; }
-.stat-card .stat-trend { font-size:11px; margin-top:4px; }
+/* ===== 统计卡片网格 ===== */
+.stats-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:12px; }
+.stat-card { background:#f8f9fa; border-radius:8px; padding:10px 8px; text-align:center; border:1px solid #eee; }
+.stat-card .stat-value { font-size:20px; font-weight:700; color:#1a73e8; line-height:1.2; }
+.stat-card .stat-label { font-size:10px; color:#5f6368; margin-top:2px; }
+.stat-card .stat-trend { font-size:9px; margin-top:2px; }
 .stat-card.stat-highlight { background:#e8f0fe; border-color:#1a73e8; }
 .trend-up { color:#d93025; font-weight:600; }
 .trend-down { color:#137333; font-weight:600; }
 .trend-flat { color:#5f6368; }
 
-.bar-chart { margin:10px 0; }
-.bar-item { display:flex; align-items:center; margin-bottom:8px; }
-.bar-label { width:100px; font-size:12px; text-align:right; padding-right:10px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.bar-track { flex:1; background:#f0f0f0; border-radius:5px; height:22px; position:relative; }
-.bar-fill { background:linear-gradient(90deg, #1a73e8, #4ecdc4); height:100%; border-radius:5px; transition:width 0.6s; min-width:2px; }
-.bar-text { position:absolute; right:8px; top:0; line-height:22px; font-size:11px; color:#333; font-weight:500; }
+/* ===== 双平台数据条 ===== */
+.source-bar { display:flex; height:5px; border-radius:3px; overflow:hidden; margin:8px 0 4px; }
+.source-bar-sgcc { background:#1a73e8; }
+.source-bar-csg { background:#00695c; }
 
-table { width:100%; border-collapse:collapse; font-size:13px; }
-th { background:#f8f9fa; padding:8px 10px; text-align:left; border-bottom:2px solid #e0e0e0; font-weight:600; color:#555; }
-td { padding:8px 10px; border-bottom:1px solid #f0f0f0; }
+/* ===== 信号卡片 ===== */
+.signal-card {
+  border:1px solid #e8e8e8;
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:all 0.2s;
+  background:#fafbfc;
+  -webkit-tap-highlight-color:transparent;
+}
+.signal-card:active { background:#f0f4ff; border-color:#1a73e8; }
+.signal-card .signal-header { display:flex; justify-content:space-between; align-items:flex-start; gap:6px; }
+.signal-card .signal-title { font-size:13px; font-weight:600; flex:1; line-height:1.4; }
+.signal-card .signal-body { margin-top:10px; color:#555; font-size:12px; line-height:1.7; display:none; }
+.signal-card .signal-body strong { color:#333; }
+.signal-card.expanded .signal-body { display:block; }
+.signal-card .signal-recommend { margin-top:8px; padding:6px 10px; background:#e8f0fe; border-radius:6px; font-size:11px; color:#1a73e8; font-weight:500; display:none; }
+.signal-card.expanded .signal-recommend { display:block; }
+.signal-priority { font-size:9px; font-weight:700; letter-spacing:0.3px; margin-bottom:5px; }
+.priority-today { color:#d93025; }
+.priority-p1 { color:#b06000; }
+.priority-p2 { color:#1a73e8; }
+.signal-action { margin-top:8px; padding:6px 10px; background:#f0f7ff; border-radius:6px; font-size:11px; border:1px dashed #1a73e8; }
+.signal-action a { color:#1a73e8; text-decoration:none; font-weight:500; }
+
+/* ===== 洞察卡片 ===== */
+.insight-card { border:1px solid #e8e8e8; border-radius:8px; padding:12px; margin-bottom:10px; background:#fff; }
+.insight-card .insight-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.insight-card .insight-title { font-size:13px; font-weight:600; }
+.insight-card .insight-body { color:#555; font-size:12px; line-height:1.7; }
+
+/* ===== 柱状图 ===== */
+.bar-chart { margin:8px 0; }
+.bar-item { display:flex; align-items:center; margin-bottom:6px; }
+.bar-label { width:68px; font-size:11px; text-align:right; padding-right:8px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#555; }
+.bar-track { flex:1; background:#f0f0f0; border-radius:4px; height:18px; position:relative; min-width:40px; }
+.bar-fill { background:linear-gradient(90deg, #1a73e8, #4ecdc4); height:100%; border-radius:4px; transition:width 0.6s; min-width:2px; }
+.bar-fill-south { background:linear-gradient(90deg, #00695c, #26a69a); }
+.bar-text { position:absolute; right:6px; top:0; line-height:18px; font-size:10px; color:#333; font-weight:500; }
+
+/* ===== 表格 ===== */
+.table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -14px; padding:0 14px; }
+.table-wrap table { min-width:360px; }
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th { background:#f8f9fa; padding:7px 8px; text-align:left; border-bottom:2px solid #e0e0e0; font-weight:600; color:#555; white-space:nowrap; }
+td { padding:7px 8px; border-bottom:1px solid #f0f0f0; }
 tr:hover { background:#f8f9fa; }
+tr.row-south { background:#f0fdf9; }
+tr.row-south:hover { background:#e0f7f0; }
 
-.deadline-urgent { background:#fce8e6; color:#d93025; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
-.deadline-warning { background:#fef7e0; color:#b06000; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
-.deadline-ok { background:#e6f4ea; color:#137333; padding:2px 8px; border-radius:4px; font-size:11px; }
+/* ===== 截止日期状态 ===== */
+.deadline-urgent { background:#fce8e6; color:#d93025; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:600; white-space:nowrap; }
+.deadline-warning { background:#fef7e0; color:#b06000; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:600; white-space:nowrap; }
+.deadline-ok { background:#e6f4ea; color:#137333; padding:1px 6px; border-radius:3px; font-size:10px; white-space:nowrap; }
 
-.timeline { position:relative; padding-left:24px; margin:12px 0; }
-.timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:#e0e0e0; }
-.timeline-item { position:relative; margin-bottom:12px; }
-.timeline-dot { position:absolute; left:-18px; top:4px; width:10px; height:10px; border-radius:50%; background:#1a73e8; border:2px solid #fff; box-shadow:0 0 0 2px #1a73e8; }
-.timeline-date { font-size:11px; color:#999; }
-.timeline-text { font-size:13px; color:#333; line-height:1.5; }
+/* ===== 时间线 ===== */
+.timeline { position:relative; padding-left:20px; margin:10px 0; }
+.timeline::before { content:''; position:absolute; left:6px; top:0; bottom:0; width:2px; background:#e0e0e0; }
+.timeline-item { position:relative; margin-bottom:10px; }
+.timeline-dot { position:absolute; left:-16px; top:3px; width:8px; height:8px; border-radius:50%; background:#1a73e8; border:2px solid #fff; box-shadow:0 0 0 2px #1a73e8; }
+.timeline-date { font-size:10px; color:#999; margin-bottom:1px; }
+.timeline-text { font-size:12px; color:#333; line-height:1.5; }
 
-.donut-container { display:flex; align-items:center; gap:24px; margin:10px 0; flex-wrap:wrap; }
-.donut-chart { width:140px; height:140px; border-radius:50%; position:relative; }
-.donut-hole { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80px; height:80px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#1a73e8; }
-.donut-legend { font-size:12px; }
-.donut-legend-item { margin-bottom:4px; display:flex; align-items:center; gap:6px; }
-.donut-legend-color { display:inline-block; width:10px; height:10px; border-radius:2px; }
+/* ===== 圆环图 ===== */
+.donut-container { display:flex; align-items:center; gap:16px; margin:8px 0; flex-wrap:wrap; }
+.donut-chart { width:110px; height:110px; border-radius:50%; position:relative; flex-shrink:0; }
+.donut-hole { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:62px; height:62px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#1a73e8; }
+.donut-legend { font-size:11px; }
+.donut-legend-item { margin-bottom:3px; display:flex; align-items:center; gap:5px; }
+.donut-legend-color { display:inline-block; width:8px; height:8px; border-radius:2px; }
 
-.tag-row { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
-.tag { padding:4px 10px; border-radius:14px; font-size:11px; background:#f0f0f0; }
+/* ===== 标签行 ===== */
+.tag-row { display:flex; flex-wrap:wrap; gap:5px; margin:6px 0; }
+.tag { padding:3px 8px; border-radius:12px; font-size:10px; background:#f0f0f0; }
 .tag-hot { background:#fce8e6; color:#d93025; }
 .tag-warm { background:#fef7e0; color:#b06000; }
 .tag-normal { background:#e8f0fe; color:#1a73e8; }
 
-.highlight-box { background:#fffde7; border-left:3px solid #ffd93d; padding:10px 14px; margin:10px 0; border-radius:0 6px 6px 0; font-size:13px; line-height:1.7; }
-.alert-box { background:#fce8e6; border-left:3px solid #d93025; padding:10px 14px; margin:10px 0; border-radius:0 6px 6px 0; font-size:13px; line-height:1.7; }
+/* ===== 高亮/提醒盒子 ===== */
+.highlight-box { background:#fffde7; border-left:3px solid #ffd93d; padding:8px 12px; margin:8px 0; border-radius:0 6px 6px 0; font-size:12px; line-height:1.6; }
+.alert-box { background:#fce8e6; border-left:3px solid #d93025; padding:8px 12px; margin:8px 0; border-radius:0 6px 6px 0; font-size:12px; line-height:1.6; }
+.info-box { background:#e8f5e9; border-left:3px solid #2e7d32; padding:8px 12px; margin:8px 0; border-radius:0 6px 6px 0; font-size:12px; line-height:1.6; }
 
-.signal-priority { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
-.priority-today { color:#d93025; }
-.priority-p1 { color:#b06000; }
-.priority-p2 { color:#1a73e8; }
-.signal-action { margin-top:10px; padding:8px 12px; background:#f0f7ff; border-radius:6px; font-size:12px; border:1px dashed #1a73e8; }
-.signal-action a { color:#1a73e8; text-decoration:none; font-weight:500; }
-.signal-action a:hover { text-decoration:underline; }
-
-.overview-trend { font-size:11px; margin-top:4px; }
-.overview-trend-up { color:#d93025; font-weight:600; }
-.overview-trend-down { color:#137333; font-weight:600; }
-.overview-trend-flat { color:#5f6368; }
-
-footer { text-align:center; font-size:11px; color:#999; padding:20px; border-top:1px solid #eee; margin-top:20px; }
-
-
-.badge-teal { background:#e0f7f0; color:#00695c; }
-.platform-tag { display:inline-block; padding:2px 10px; border-radius:10px; font-size:10px; font-weight:600; margin-left:8px; }
-.platform-sgcc { background:#e8f0fe; color:#1a73e8; }
-.platform-csg { background:#e0f7f0; color:#00695c; }
-.cross-compare { border:2px solid #00695c; border-radius:12px; overflow:hidden; margin-bottom:16px; }
-.cross-compare-header { background:linear-gradient(90deg, #1a73e8, #00695c); color:white; padding:12px 18px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; }
-.cross-compare-body { padding:16px; background:#f8fdfb; }
-.compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.compare-card { background:white; border-radius:10px; padding:14px; border:1px solid #eee; }
-.compare-card h4 { font-size:13px; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
-.compare-card .price-diff { font-size:18px; font-weight:700; margin:4px 0; }
+/* ===== 跨平台对比 ===== */
+.cross-compare {
+  border:2px solid #00695c;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:12px;
+}
+.cross-compare-header {
+  background:linear-gradient(90deg, #1a73e8, #00695c);
+  color:white;
+  padding:10px 14px;
+  font-size:12px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.cross-compare-body { padding:12px; background:#f8fdfb; }
+.compare-grid { display:grid; grid-template-columns:1fr; gap:8px; }
+.compare-card { background:white; border-radius:8px; padding:12px; border:1px solid #eee; }
+.compare-card h4 { font-size:12px; margin-bottom:6px; display:flex; align-items:center; gap:4px; }
+.compare-card .price-diff { font-size:16px; font-weight:700; margin:3px 0; }
 .compare-card .price-diff-up { color:#d93025; }
 .compare-card .price-diff-down { color:#137333; }
-.compare-card .price-sub { font-size:11px; color:#5f6368; }
-.source-bar { display:flex; height:6px; border-radius:3px; overflow:hidden; margin:8px 0; }
-.source-bar-sgcc { background:#1a73e8; }
-.source-bar-csg { background:#00695c; }
-.bar-fill-south { background:linear-gradient(90deg, #00695c, #26a69a); }
-.info-box { background:#e8f5e9; border-left:3px solid #2e7d32; padding:10px 14px; margin:10px 0; border-radius:0 6px 6px 0; font-size:13px; line-height:1.7; }
-.new-badge { display:inline-block; background:#00695c; color:white; padding:1px 6px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px; vertical-align:middle; }
-tr.row-south { background:#f0fdf9; }
-tr.row-south:hover { background:#e0f7f0; }
+.compare-card .price-sub { font-size:10px; color:#5f6368; }
 
+/* ===== Footer ===== */
+footer { text-align:center; font-size:10px; color:#999; padding:14px 10px; border-top:1px solid #eee; margin-top:16px; line-height:1.6; }
+
+/* ==================== 平板及以上 ==================== */
+@media (min-width: 600px) {
+  .container { padding:16px; }
+  .header { padding:18px 24px; }
+  .header h1 { font-size:20px; }
+  .header h1 span { font-size:12px; }
+  .header .subtitle { font-size:13px; }
+  .section { padding:18px; margin-bottom:16px; }
+  .section h2 { font-size:15px; }
+  .stats-grid { grid-template-columns:repeat(3,1fr); gap:10px; }
+  .stat-card { padding:12px 10px; }
+  .stat-card .stat-value { font-size:22px; }
+  .stat-card .stat-label { font-size:11px; }
+  .bar-label { width:90px; font-size:12px; }
+  .bar-track { height:20px; }
+  .bar-text { line-height:20px; font-size:11px; }
+  .signal-card .signal-title { font-size:14px; }
+  .signal-card .signal-body { font-size:13px; }
+  .compare-grid { grid-template-columns:1fr 1fr; }
+  table { font-size:13px; }
+  .timeline-text { font-size:13px; }
+  .cross-compare-header { font-size:13px; }
+  .donut-chart { width:130px; height:130px; }
+  .donut-hole { width:74px; height:74px; font-size:12px; }
+}
+
+/* ==================== 桌面 ==================== */
+@media (min-width: 900px) {
+  body { font-size:14px; }
+  .container { padding:20px; }
+  .header { padding:22px 32px; position:relative; }
+  .header h1 { font-size:22px; }
+  .header .subtitle { font-size:13px; }
+  .header .date { font-size:12px; }
+  .section { padding:20px; border-radius:12px; margin-bottom:18px; }
+  .section h2 { font-size:16px; }
+  .stats-grid { grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; }
+  .stat-card { padding:14px; }
+  .stat-card .stat-value { font-size:24px; }
+  .signal-card { border-radius:10px; padding:16px; }
+  .signal-card:hover { border-color:#1a73e8; box-shadow:0 3px 12px rgba(26,115,232,0.12); background:#fff; }
+  .signal-card .signal-title { font-size:15px; }
+  .bar-label { width:100px; }
+  .bar-track { height:22px; }
+  .bar-text { line-height:22px; font-size:11px; }
+  .donut-chart { width:140px; height:140px; }
+  .donut-hole { width:80px; height:80px; }
+  .donut-legend { font-size:12px; }
+  .cross-compare-header { font-size:14px; }
+}
 </style>
 </head>
 <body>
+
 <div class="header">
-<div class="date">5月29日 周五 · TD-HUB 输配电产业服务平台<br><span style="font-size:10px;opacity:0.7">双平台版 · 国网ECP + 南网供应链</span></div>
-<h1>本周总结日 <span style="font-size:13px;font-weight:400;opacity:0.8">国网 + 南网双平台</span></h1>
-<div class="subtitle">汇总国网与南网本周核心发现，输出跨平台市场预判与行动建议</div>
+  <div class="header-top">
+    <h1>本周总结日 <span>国网 + 南网双平台</span></h1>
+    <div class="date">5月29日 周五</div>
+  </div>
+  <div class="subtitle">汇总国网与南网本周核心发现，输出跨平台市场预判与行动建议</div>
+  <div class="platform-line">TD-HUB 输配电产业服务平台 · 双平台版</div>
 </div>
+
 <div class="container">
-<div class="section"><h2>本周核心数据总览（双平台）</h2>
-<div class="stats-grid">
-<div class="stat-card stat-highlight"><div class="stat-value">222</div><div class="stat-label">本周新增招标（合计）</div><div class="overview-trend overview-trend-up">较上期 +212%↑</div></div>
-<div class="stat-card"><div class="stat-value">222</div><div class="stat-label">国网新增<span class="platform-tag platform-sgcc">ECP</span></div><div class="overview-trend overview-trend-up">较上期 +212%↑</div></div>
-<div class="stat-card"><div class="stat-value">0</div><div class="stat-label">南网新增<span class="platform-tag platform-csg">CSG</span></div><div class="overview-trend overview-trend-flat">持平</div></div>
-<div class="stat-card"><div class="stat-value">560</div><div class="stat-label">覆盖省份（双平台）</div><div class="overview-trend overview-trend-up">较上期 +44%↑</div></div>
-<div class="stat-card"><div class="stat-value">160</div><div class="stat-label">下周截标项目</div><div class="overview-trend overview-trend-up">较上期 +53%↑</div></div>
-<div class="stat-card"><div class="stat-value">6</div><div class="stat-label">南网专有覆盖省份<span class="new-badge">NEW</span></div></div>
+
+<!-- 核心数据总览 -->
+<div class="section">
+  <h2>本周核心数据总览（双平台）</h2>
+  <div class="stats-grid">
+    <div class="stat-card stat-highlight"><div class="stat-value">222</div><div class="stat-label">本周新增招标（合计）</div><div class="stat-trend trend-up">较上期 +212%↑</div></div>
+    <div class="stat-card"><div class="stat-value">222</div><div class="stat-label">国网新增<span class="platform-tag platform-sgcc">ECP</span></div><div class="stat-trend trend-up">较上期 +212%↑</div></div>
+    <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">南网新增<span class="platform-tag platform-csg">CSG</span></div><div class="stat-trend trend-flat">持平</div></div>
+    <div class="stat-card"><div class="stat-value">560</div><div class="stat-label">覆盖省份（双平台）</div><div class="stat-trend trend-up">较上期 +44%↑</div></div>
+    <div class="stat-card"><div class="stat-value">160</div><div class="stat-label">下周截标项目</div><div class="stat-trend trend-up">较上期 +53%↑</div></div>
+    <div class="stat-card"><div class="stat-value">6</div><div class="stat-label">南网专有覆盖省份<span class="new-badge">NEW</span></div></div>
+  </div>
+  <div class="source-bar"><div class="source-bar-sgcc" style="width:100.0%"></div><div class="source-bar-csg" style="width:0.0%"></div></div>
+  <div style="font-size:10px;color:#5f6368;margin-top:4px;display:flex;justify-content:space-between"><span>国网ECP 222条（100.0%）</span><span>南网供应链 0条（0.0%）</span></div>
 </div>
-<div class="source-bar"><div class="source-bar-sgcc" style="width:100.0%"></div><div class="source-bar-csg" style="width:0.0%"></div></div>
-<div style="font-size:11px;color:#5f6368;margin-top:4px;display:flex;justify-content:space-between"><span>国网ECP 222条（100.0%）</span><span>南网供应链 0条（0.0%）</span></div>
+
+<!-- 本周关键事件时间线 -->
+<div class="section">
+  <h2>📅 本周关键事件时间线（双平台）</h2>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周一</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> 黑龙江(28条)/四川(22条)/江苏(15条)需求激增 <span class="badge badge-orange">区域信号</span><br><span class="platform-tag platform-csg">南网</span> 广东(47条)、贵州(22条)需求活跃 <span class="badge badge-teal">南网区域</span></div></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周二</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> Top10采购方集中度14.8%<br><span class="platform-tag platform-csg">南网</span> 贵州电网公司(19条)活跃 <span class="badge badge-blue">竞争信号</span></div></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周三</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> 废标公告100条与中标公告持平<br><span class="platform-tag platform-csg">南网</span> 中标公告149条纳入日报分析 <span class="badge badge-teal">新增数据</span> <span class="badge badge-red">合规</span></div></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周四</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> 未来7天20个项目截标<br><span class="platform-tag platform-csg">南网</span> 0个截标项目（南网新增） <span class="badge badge-red">截标预警</span></div></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周五</div><div class="timeline-text">本周总结：国网需求激增 + 南网数据接入 = 双平台情报覆盖 <span class="badge badge-purple">总结</span></div></div></div>
+  </div>
 </div>
-<div class="section"><h2>📅 本周关键事件时间线（双平台）</h2>
-<div class="timeline">
-<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周一</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> 黑龙江(28条)/四川(22条)/江苏(15条)需求激增 <span class="badge badge-orange">区域信号</span><br><span class="platform-tag platform-csg">南网</span> 广东(47条)、贵州(22条)需求活跃 <span class="badge badge-teal">南网区域</span> <span class="badge badge-blue">双平台</span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周二</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> Top10采购方集中度14.8%<br><span class="platform-tag platform-csg">南网</span> 贵州电网公司(19条)活跃 <span class="badge badge-blue">竞争信号</span> <span class="badge badge-blue">采购方</span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周三</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> 废标公告100条与中标公告持平<br><span class="platform-tag platform-csg">南网</span> 中标公告149条纳入日报分析 <span class="badge badge-teal">新增数据</span> <span class="badge badge-red">合规</span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周四</div><div class="timeline-text"><span class="platform-tag platform-sgcc">国网</span> 未来7天20个项目截标<br><span class="platform-tag platform-csg">南网</span> 0个截标项目（南网新增） <span class="badge badge-red">截标预警</span> <span class="badge badge-red">截标</span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">周五</div><div class="timeline-text">本周总结：国网需求激增 + 南网数据接入 = 双平台情报覆盖 <span class="badge badge-purple">总结</span> <span class="badge badge-purple">总结</span></div></div></div></div></div>
+
+<!-- 跨平台横向对比 -->
 <div class="cross-compare">
-<div class="cross-compare-header"><span style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(255,255,255,0.25)">SG</span> 国网ECP<span style="margin:0 8px;opacity:0.5">vs</span><span style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(255,255,255,0.25)">CS</span> 南网供应链<span style="font-size:12px;font-weight:400;opacity:0.8;margin-left:auto">跨平台横向对比 <span class="new-badge">NEW</span></span></div>
-<div class="cross-compare-body">
-<h3 style="font-size:15px;color:#333;margin:0 0 16px">双平台数据横向对比</h3>
-<div class="compare-grid">
-<div class="compare-card"><h4><span class="platform-tag platform-sgcc">国网</span> 本周新增招标</h4><div class="price-diff">222条</div><div class="price-sub">覆盖32省份 · 49品类</div></div>
-<div class="compare-card"><h4><span class="platform-tag platform-csg">南网</span> 本周新增招标</h4><div class="price-diff">0条</div><div class="price-sub">覆盖6省份 · 14品类</div></div>
-<div class="compare-card"><h4><span class="platform-tag platform-sgcc">国网</span> 品类Top1</h4><div class="price-diff">服务类招标</div><div class="price-sub">113条 · 占比23.49%</div></div>
-<div class="compare-card"><h4><span class="platform-tag platform-csg">南网</span> 品类Top1</h4><div class="price-diff">技术服务</div><div class="price-sub">16条 · 占比22.54%</div></div>
-<div class="compare-card"><h4><span class="platform-tag platform-sgcc">国网</span> 下周截标</h4><div class="price-diff">20个</div><div class="price-sub">3天内紧急20个</div></div>
-<div class="compare-card"><h4><span class="platform-tag platform-csg">南网</span> 下周截标</h4><div class="price-diff">0个</div><div class="price-sub">新增南网截标预警</div></div>
+  <div class="cross-compare-header">
+    <span style="width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:rgba(255,255,255,0.25);flex-shrink:0">SG</span>
+    国网ECP vs
+    <span style="width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:rgba(255,255,255,0.25);flex-shrink:0">CS</span>
+    南网供应链
+    <span style="font-size:10px;font-weight:400;opacity:0.8;margin-left:auto">跨平台对比 <span class="new-badge">NEW</span></span>
+  </div>
+  <div class="cross-compare-body">
+    <h3 style="font-size:14px;color:#333;margin:0 0 12px">双平台数据横向对比</h3>
+    <div class="compare-grid">
+      <div class="compare-card"><h4><span class="platform-tag platform-sgcc">国网</span> 本周新增招标</h4><div class="price-diff">222条</div><div class="price-sub">覆盖32省份 · 49品类</div></div>
+      <div class="compare-card"><h4><span class="platform-tag platform-csg">南网</span> 本周新增招标</h4><div class="price-diff">0条</div><div class="price-sub">覆盖6省份 · 14品类</div></div>
+      <div class="compare-card"><h4><span class="platform-tag platform-sgcc">国网</span> 品类Top1</h4><div class="price-diff">服务类招标</div><div class="price-sub">113条 · 占比23.49%</div></div>
+      <div class="compare-card"><h4><span class="platform-tag platform-csg">南网</span> 品类Top1</h4><div class="price-diff">技术服务</div><div class="price-sub">16条 · 占比22.54%</div></div>
+      <div class="compare-card"><h4><span class="platform-tag platform-sgcc">国网</span> 下周截标</h4><div class="price-diff">20个</div><div class="price-sub">3天内紧急20个</div></div>
+      <div class="compare-card"><h4><span class="platform-tag platform-csg">南网</span> 下周截标</h4><div class="price-diff">0个</div><div class="price-sub">新增南网截标预警</div></div>
+    </div>
+    <div class="highlight-box" style="margin-top:12px">
+      <strong>跨平台关键发现：</strong><br>
+      1. 南网与国网输配电品类高度重合，国网中标企业在南网有天然产品优势<br>
+      2. 南网省份（广东/广西/云南/贵州/海南）与国网省份互补，双平台覆盖全国33省<br>
+      3. 建议分品类制定独立报价策略：南网竞争更充分，标准化产品价格可能低于国网
+    </div>
+  </div>
 </div>
-<div class="highlight-box" style="margin-top:16px">
-<strong>跨平台关键发现：</strong><br>
-1. 南网与国网输配电品类高度重合，国网中标企业在南网有天然产品优势<br>
-2. 南网省份（广东/广西/云南/贵州/海南）与国网省份互补，双平台覆盖全国33省<br>
-3. 建议分品类制定独立报价策略：南网竞争更充分，标准化产品价格可能低于国网
+
+<!-- 核心信号汇总 -->
+<div class="section">
+  <h2>📡 本周核心信号汇总</h2>
+
+  <div class="signal-card expanded">
+    <div class="signal-priority priority-today">🔴 今日必看</div>
+    <div class="signal-header"><span class="signal-title">信号一：南网数据首次接入——双平台情报覆盖全国33省</span><span class="badge badge-red">本周最大</span></div>
+    <div class="signal-body">
+      <strong>[数据]</strong> 南网供应链统一服务平台（bidding.csg.cn）本周正式接入TD-HUB日报，新增149条南网公告数据。南网覆盖广东、广西、云南、贵州、海南、深圳等6省份，与国网27省形成互补。双平台合计覆盖33个省份。<br>
+      <strong>[因素]</strong> 南网作为第二大电网采购主体，年采购规模超千亿。接入南网数据后，TD-HUB日报从[单一国网情报]升级为[全国电力采购全景情报]。南网与国网的设备标准高度一致（均遵循国标），国网供应商进入南网市场的产品壁垒几乎为零。<br>
+      <strong>[建议]</strong> 评估公司产品线在南网五省的匹配度。重点关注广东市场（南网总部所在地，采购量最大）。如果公司已有国网中标业绩，南网投标时可直接复用技术方案。重点投入商务层面：了解南网评标规则、建立区域服务团队。
+    </div>
+    <div class="signal-recommend">💡 战略决策：南网广东是进入南网市场的最佳切入点，评估公司产品匹配度，优先从广东开始</div>
+    <div class="signal-action"><a href="#" target="_blank">查看南网五省市场评估 ↗</a> | <a href="#" target="_blank">南网投标指南 ↗</a></div>
+  </div>
+
+  <div class="signal-card">
+    <div class="signal-priority priority-p1">🟠 重要信号</div>
+    <div class="signal-header"><span class="signal-title">信号二：双平台合计本周新增222条招标——国网222条 + 南网0条</span><span class="badge badge-blue">规模信号</span></div>
+    <div class="signal-body">
+      <strong>[数据]</strong> 本周双平台合计新增招标222条。其中国网ECP 222条（100.0%），南网供应链 0条（0.0%）。南网单省（广东）招标量超过国网多数省份，采购集中度更高。<br>
+      <strong>[因素]</strong> 双平台数据覆盖后，用户可获得全国电力采购市场的全景视图。南网虽然总量小于国网，但采购集中度高、品类与国网重合度高，对于已经在国网深耕的供应商，南网是天然的增量市场。<br>
+      <strong>[建议]</strong> 将南网纳入日常投标监控范围。重点关注广东电网（南网最大采购方）的招标公告。对比分析国网和南网同类产品的招标量趋势，判断品类需求是否同步变化。
+    </div>
+    <div class="signal-recommend">💡 增量策略：将南网纳入日常投标监控，广东电网作为第一优先级</div>
+    <div class="signal-action"><a href="#" target="_blank">查看双平台招标对比 ↗</a> | <a href="#" target="_blank">设置南网订阅 ↗</a></div>
+  </div>
+
+  <div class="signal-card">
+    <div class="signal-priority priority-p2">🔵 参考信号</div>
+    <div class="signal-header"><span class="signal-title">信号三：南网品类结构与国网高度重合——能力可直接迁移</span><span class="badge badge-green">品类信号</span></div>
+    <div class="signal-body">
+      <strong>[数据]</strong> 国网Top品类：服务类招标（113条）；南网Top品类：技术服务（16条）。两平台输配电核心设备（箱变/环网柜/配变终端/开关柜）品类高度重合。<br>
+      <strong>[因素]</strong> 南网与国网的设备采购标准均遵循国标和行业标准，产品无需重新设计或认证即可投标。国网供应商进入南网的[产品壁垒]几乎为零，主要差异在商务层面（报价策略、区域服务能力、客户关系）。<br>
+      <strong>[建议]</strong> 如果公司已有国网中标业绩，南网投标时可直接复用技术方案和产品资料。重点投入商务层面：了解南网评标规则、建立区域服务团队。
+    </div>
+    <div class="signal-recommend">💡 能力复用：国网技术方案可直接用于南网投标，重点投入商务和区域服务</div>
+    <div class="signal-action"><a href="#" target="_blank">查看南网投标指南 ↗</a> | <a href="#" target="_blank">南网商务文件模板 ↗</a></div>
+  </div>
 </div>
-</div></div>
-<div class="section"><h2>📡 本周核心信号汇总</h2>
-<div class="signal-card expanded">
-<div class="signal-priority priority-today">🔴 今日必看</div>
-<div class="signal-header"><span class="signal-title">信号一：南网数据首次接入——双平台情报覆盖全国33省</span><span class="badge badge-red">本周最大信号</span></div>
-<div class="signal-body">
-<strong>[数据]</strong> 南网供应链统一服务平台（bidding.csg.cn）本周正式接入TD-HUB日报，新增149条南网公告数据。南网覆盖广东、广西、云南、贵州、海南、深圳等6省份，与国网27省形成互补。双平台合计覆盖33个省份。<br>
-<strong>[因素]</strong> 南网作为第二大电网采购主体，年采购规模超千亿。接入南网数据后，TD-HUB日报从[单一国网情报]升级为[全国电力采购全景情报]。南网与国网的设备标准高度一致（均遵循国标），国网供应商进入南网市场的产品壁垒几乎为零。<br>
-<strong>[建议]</strong> 评估公司产品线在南网五省的匹配度。重点关注广东市场（南网总部所在地，采购量最大）。如果公司已有国网中标业绩，南网投标时可直接复用技术方案。重点投入商务层面：了解南网评标规则、建立区域服务团队。
+
+<!-- 省份分布 -->
+<div class="section">
+  <h2>🗺️ 本周省份分布 Top 10（双平台合并）</h2>
+  <div class="bar-chart">
+    <div class="bar-item"><div class="bar-label">广东<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill" style="width:100%"></div><div class="bar-text">94条 (21.1%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">北京<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill" style="width:84%"></div><div class="bar-text">79条 (17.7%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">总部<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill" style="width:61%"></div><div class="bar-text">58条 (13.0%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">贵州<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill" style="width:46%"></div><div class="bar-text">44条 (9.9%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">云南<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill" style="width:36%"></div><div class="bar-text">34条 (7.6%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">黑龙江<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill" style="width:32%"></div><div class="bar-text">31条 (7.0%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">海南<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill" style="width:31%"></div><div class="bar-text">30条 (6.7%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">江苏<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill" style="width:29%"></div><div class="bar-text">28条 (6.3%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">四川<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill" style="width:25%"></div><div class="bar-text">24条 (5.4%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">上海<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill" style="width:25%"></div><div class="bar-text">24条 (5.4%)</div></div></div>
+  </div>
+  <div style="font-size:10px;color:#5f6368;margin-top:6px;display:flex;gap:12px;flex-wrap:wrap">
+    <span><span style="display:inline-block;width:10px;height:10px;background:linear-gradient(90deg,#1a73e8,#4ecdc4);border-radius:2px;vertical-align:middle;margin-right:3px"></span>国网省份</span>
+    <span><span style="display:inline-block;width:10px;height:10px;background:linear-gradient(90deg,#00695c,#26a69a);border-radius:2px;vertical-align:middle;margin-right:3px"></span>南网省份</span>
+  </div>
 </div>
-<div class="signal-recommend">💡 战略决策：南网广东是进入南网市场的最佳切入点，评估公司产品匹配度，优先从广东开始</div>
-<div class="signal-action"><a href="#" target="_blank">查看南网五省市场评估 ↗</a> | <a href="#" target="_blank">南网投标指南 ↗</a></div>
-</div>
-<div class="signal-card">
-<div class="signal-priority priority-p1">🟠 重要信号</div>
-<div class="signal-header"><span class="signal-title">信号二：双平台合计本周新增222条招标——国网222条 + 南网0条</span><span class="badge badge-blue">规模信号</span></div>
-<div class="signal-body">
-<strong>[数据]</strong> 本周双平台合计新增招标222条。其中国网ECP 222条（100.0%），南网供应链 0条（0.0%）。南网单省（广东）招标量超过国网多数省份，采购集中度更高。<br>
-<strong>[因素]</strong> 双平台数据覆盖后，用户可获得全国电力采购市场的全景视图。南网虽然总量小于国网，但采购集中度高、品类与国网重合度高，对于已经在国网深耕的供应商，南网是天然的增量市场。<br>
-<strong>[建议]</strong> 将南网纳入日常投标监控范围。重点关注广东电网（南网最大采购方）的招标公告。对比分析国网和南网同类产品的招标量趋势，判断品类需求是否同步变化。
-</div>
-<div class="signal-recommend">💡 增量策略：将南网纳入日常投标监控，广东电网作为第一优先级</div>
-<div class="signal-action"><a href="#" target="_blank">查看双平台招标对比 ↗</a> | <a href="#" target="_blank">设置南网订阅 ↗</a></div>
-</div>
-<div class="signal-card">
-<div class="signal-priority priority-p2">🔵 参考信号</div>
-<div class="signal-header"><span class="signal-title">信号三：南网品类结构与国网高度重合——能力可直接迁移</span><span class="badge badge-green">品类信号</span></div>
-<div class="signal-body">
-<strong>[数据]</strong> 国网Top品类：服务类招标（113条）；南网Top品类：技术服务（16条）。两平台输配电核心设备（箱变/环网柜/配变终端/开关柜）品类高度重合。<br>
-<strong>[因素]</strong> 南网与国网的设备采购标准均遵循国标和行业标准，产品无需重新设计或认证即可投标。国网供应商进入南网的[产品壁垒]几乎为零，主要差异在商务层面（报价策略、区域服务能力、客户关系）。<br>
-<strong>[建议]</strong> 如果公司已有国网中标业绩，南网投标时可直接复用技术方案和产品资料。重点投入商务层面：了解南网评标规则、建立区域服务团队。
-</div>
-<div class="signal-recommend">💡 能力复用：国网技术方案可直接用于南网投标，重点投入商务和区域服务</div>
-<div class="signal-action"><a href="#" target="_blank">查看南网投标指南 ↗</a> | <a href="#" target="_blank">南网商务文件模板 ↗</a></div>
-</div>
-</div>
-<div class="section"><h2>🗺️ 本周省份分布 Top 10（双平台合并）</h2>
-<div class="bar-item"><div class="bar-label">广东<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill " style="width:100%"></div><div class="bar-text">94条 (21.1%)</div></div></div>
-<div class="bar-item"><div class="bar-label">北京<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill " style="width:84%"></div><div class="bar-text">79条 (17.7%)</div></div></div>
-<div class="bar-item"><div class="bar-label">总部<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill " style="width:61%"></div><div class="bar-text">58条 (13.0%)</div></div></div>
-<div class="bar-item"><div class="bar-label">贵州<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill " style="width:46%"></div><div class="bar-text">44条 (9.9%)</div></div></div>
-<div class="bar-item"><div class="bar-label">云南<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill " style="width:36%"></div><div class="bar-text">34条 (7.6%)</div></div></div>
-<div class="bar-item"><div class="bar-label">黑龙江<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill " style="width:32%"></div><div class="bar-text">31条 (7.0%)</div></div></div>
-<div class="bar-item"><div class="bar-label">海南<span class="platform-tag platform-sgcc">双平台</span></div><div class="bar-track"><div class="bar-fill " style="width:31%"></div><div class="bar-text">30条 (6.7%)</div></div></div>
-<div class="bar-item"><div class="bar-label">江苏<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill " style="width:29%"></div><div class="bar-text">28条 (6.3%)</div></div></div>
-<div class="bar-item"><div class="bar-label">四川<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill " style="width:25%"></div><div class="bar-text">24条 (5.4%)</div></div></div>
-<div class="bar-item"><div class="bar-label">上海<span class="platform-tag platform-sgcc">国网</span></div><div class="bar-track"><div class="bar-fill " style="width:25%"></div><div class="bar-text">24条 (5.4%)</div></div></div>
-<div style="font-size:11px;color:#5f6368;margin-top:8px;display:flex;gap:16px"><span><span style="display:inline-block;width:10px;height:10px;background:linear-gradient(90deg,#1a73e8,#4ecdc4);border-radius:2px;vertical-align:middle;margin-right:4px"></span>国网省份</span><span><span style="display:inline-block;width:10px;height:10px;background:linear-gradient(90deg,#00695c,#26a69a);border-radius:2px;vertical-align:middle;margin-right:4px"></span>南网省份</span></div></div>
+
+<!-- 南网市场速览 -->
 <div class="section" style="border-left:3px solid #00695c">
-<h2 style="color:#00695c;border-left-color:#00695c">南网市场速览 <span class="new-badge">NEW</span></h2>
-<div style="font-size:13px;color:#555;margin-bottom:16px">本周是南网数据首次纳入日报。以下为南网五省关键指标，帮助快速建立南网市场认知。</div>
-<h3>南网省份招标量</h3>
-<div class="bar-chart"><div class="bar-item"><div class="bar-label">广东</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div><div class="bar-text">47条 (31.5%)</div></div></div><div class="bar-item"><div class="bar-label">贵州</div><div class="bar-track"><div class="bar-fill" style="width:46%"></div><div class="bar-text">22条 (14.8%)</div></div></div><div class="bar-item"><div class="bar-label">云南</div><div class="bar-track"><div class="bar-fill" style="width:36%"></div><div class="bar-text">17条 (11.4%)</div></div></div><div class="bar-item"><div class="bar-label">海南</div><div class="bar-track"><div class="bar-fill" style="width:31%"></div><div class="bar-text">15条 (10.1%)</div></div></div><div class="bar-item"><div class="bar-label">总部</div><div class="bar-track"><div class="bar-fill" style="width:31%"></div><div class="bar-text">15条 (10.1%)</div></div></div><div class="bar-item"><div class="bar-label">广西</div><div class="bar-track"><div class="bar-fill" style="width:23%"></div><div class="bar-text">11条 (7.4%)</div></div></div></div></div>
-<h3>南网品类结构</h3>
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-value" style="color:#00695c">16</div><div class="stat-label">技术服务</div><div class="stat-trend" style="color:#00695c">占比22.54%</div></div>
-<div class="stat-card"><div class="stat-value" style="color:#00695c">10</div><div class="stat-label">安全服务</div><div class="stat-trend" style="color:#00695c">占比14.08%</div></div>
-<div class="stat-card"><div class="stat-value" style="color:#00695c">9</div><div class="stat-label">设计服务</div><div class="stat-trend" style="color:#00695c">占比12.68%</div></div>
-<div class="stat-card"><div class="stat-value" style="color:#00695c">6</div><div class="stat-label">咨询服务</div><div class="stat-trend" style="color:#00695c">占比8.45%</div></div>
-</div>
-<h3>南网活跃采购方 Top 5</h3>
-<table><tr><th>采购方</th><th>公告数</th><th>主要品类</th></tr><tr><td>贵州电网公司</td><td>19条</td><td>物资/服务/工程</td></tr><tr><td>广东电网公司</td><td>18条</td><td>物资/服务/工程</td></tr><tr><td>海南电网公司</td><td>13条</td><td>物资/服务/工程</td></tr><tr><td>南方电网公司</td><td>13条</td><td>物资/服务/工程</td></tr><tr><td>深圳电网公司</td><td>12条</td><td>物资/服务/工程</td></tr></table>
-<div class="info-box">
-<strong>南网市场入门建议：</strong><br>
-1. <strong>首选广东：</strong> 南网总部所在地，采购量最大、信息最透明<br>
-2. <strong>产品策略：</strong> 国网技术方案可直接复用，重点调整报价策略<br>
-3. <strong>竞争格局：</strong> 南网供应商集中度低于国网，新进入者有机会<br>
-4. <strong>数据说明：</strong> 南网数据源 bidding.csg.cn，每日自动更新
-</div>
+  <h2 style="color:#00695c;border-left-color:#00695c">南网市场速览 <span class="new-badge">NEW</span></h2>
+  <div style="font-size:12px;color:#555;margin-bottom:12px">本周是南网数据首次纳入日报。以下为南网五省关键指标，帮助快速建立南网市场认知。</div>
+
+  <h3 style="font-size:13px;color:#333;margin:12px 0 8px">南网省份招标量</h3>
+  <div class="bar-chart">
+    <div class="bar-item"><div class="bar-label">广东</div><div class="bar-track"><div class="bar-fill bar-fill-south" style="width:100%"></div><div class="bar-text">47条 (31.5%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">贵州</div><div class="bar-track"><div class="bar-fill bar-fill-south" style="width:46%"></div><div class="bar-text">22条 (14.8%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">云南</div><div class="bar-track"><div class="bar-fill bar-fill-south" style="width:36%"></div><div class="bar-text">17条 (11.4%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">海南</div><div class="bar-track"><div class="bar-fill bar-fill-south" style="width:31%"></div><div class="bar-text">15条 (10.1%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">总部</div><div class="bar-track"><div class="bar-fill bar-fill-south" style="width:31%"></div><div class="bar-text">15条 (10.1%)</div></div></div>
+    <div class="bar-item"><div class="bar-label">广西</div><div class="bar-track"><div class="bar-fill bar-fill-south" style="width:23%"></div><div class="bar-text">11条 (7.4%)</div></div></div>
+  </div>
+
+  <h3 style="font-size:13px;color:#333;margin:14px 0 8px">南网品类结构</h3>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value" style="color:#00695c">16</div><div class="stat-label">技术服务</div><div class="stat-trend" style="color:#00695c">占比22.54%</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#00695c">10</div><div class="stat-label">安全服务</div><div class="stat-trend" style="color:#00695c">占比14.08%</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#00695c">9</div><div class="stat-label">设计服务</div><div class="stat-trend" style="color:#00695c">占比12.68%</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#00695c">6</div><div class="stat-label">咨询服务</div><div class="stat-trend" style="color:#00695c">占比8.45%</div></div>
+  </div>
+
+  <h3 style="font-size:13px;color:#333;margin:14px 0 8px">南网活跃采购方 Top 5</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>采购方</th><th>公告数</th><th>主要品类</th></tr>
+      <tr><td>贵州电网公司</td><td>19条</td><td>物资/服务/工程</td></tr>
+      <tr><td>广东电网公司</td><td>18条</td><td>物资/服务/工程</td></tr>
+      <tr><td>海南电网公司</td><td>13条</td><td>物资/服务/工程</td></tr>
+      <tr><td>南方电网公司</td><td>13条</td><td>物资/服务/工程</td></tr>
+      <tr><td>深圳电网公司</td><td>12条</td><td>物资/服务/工程</td></tr>
+    </table>
+  </div>
+
+  <div class="info-box">
+    <strong>南网市场入门建议：</strong><br>
+    1. <strong>首选广东：</strong> 南网总部所在地，采购量最大、信息最透明<br>
+    2. <strong>产品策略：</strong> 国网技术方案可直接复用，重点调整报价策略<br>
+    3. <strong>竞争格局：</strong> 南网供应商集中度低于国网，新进入者有机会<br>
+    4. <strong>数据说明：</strong> 南网数据源 bidding.csg.cn，每日自动更新
+  </div>
 </div>
 
 </div>
-<footer>TD-HUB 输配电产业服务平台 · 招投标资讯日报 · 双平台版<br>数据来源：国网ECP 2.0 + 南网供应链统一服务平台（bidding.csg.cn）<br>订阅设置：<a href="#">修改订阅偏好</a> · <a href="#">查看平台完整功能</a> · <a href="#">退订</a></footer>
+
+<footer>
+  TD-HUB 输配电产业服务平台 · 招投标资讯日报 · 双平台版<br>
+  数据来源：国网ECP 2.0 + 南网供应链统一服务平台（bidding.csg.cn）<br>
+  订阅设置：<a href="#" style="color:#1a73e8">修改订阅偏好</a> · <a href="#" style="color:#1a73e8">查看平台完整功能</a> · <a href="#" style="color:#1a73e8">退订</a>
+</footer>
 
 <script>
 document.querySelectorAll('.signal-card').forEach(function(card){
     card.addEventListener('click', function(e){
-        // 如果点击的是表格等交互元素，不折叠
         if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
         card.classList.toggle('expanded');
     });
 });
-// 首个信号卡片默认展开
-var first = document.querySelector('.signal-card');
-if (first) first.classList.add('expanded');
+document.querySelector('.signal-card').classList.add('expanded');
 </script>
 
 </body>
