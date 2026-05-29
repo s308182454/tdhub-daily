@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TD-HUB 路 鍛ㄤ簲鏃ユ姤 路 5鏈?9鏃ワ紙鍙屽钩鍙扮増锛?/title>
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background:#f0f2f5; color:#333; font-size:14px; }
+.header { background:linear-gradient(135deg, #1a73e8, #0d47a1); color:white; padding:22px 32px; position:relative; }
+.header h1 { font-size:22px; margin-bottom:4px; font-weight:700; }
+.header .subtitle { font-size:13px; opacity:0.85; margin-top:4px; }
+.header .date { position:absolute; right:32px; top:22px; font-size:12px; opacity:0.8; }
+.container { max-width:1080px; margin:0 auto; padding:20px; }
+.section { background:white; border-radius:12px; padding:20px; margin-bottom:18px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.section h2 { font-size:16px; color:#1a73e8; border-left:3px solid #1a73e8; padding-left:10px; margin-bottom:16px; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; margin-right:4px; font-weight:500; }
+.badge-blue { background:#e8f0fe; color:#1a73e8; }
+.badge-red { background:#fce8e6; color:#d93025; }
+.badge-green { background:#e6f4ea; color:#137333; }
+.badge-orange { background:#fef7e0; color:#b06000; }
+.badge-purple { background:#f3e8fd; color:#7b1fa2; }
+
+.signal-card { border:1px solid #e8e8e8; border-radius:10px; padding:16px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; background:#fafbfc; }
+.signal-card:hover { border-color:#1a73e8; box-shadow:0 3px 12px rgba(26,115,232,0.12); background:#fff; }
+.signal-card .signal-header { display:flex; justify-content:space-between; align-items:center; }
+.signal-card .signal-title { font-size:15px; font-weight:600; }
+.signal-card .signal-body { margin-top:10px; color:#555; font-size:13px; line-height:1.8; display:none; }
+.signal-card .signal-body strong { color:#333; }
+.signal-card.expanded .signal-body { display:block; }
+.signal-card .signal-recommend { margin-top:10px; padding:8px 12px; background:#e8f0fe; border-radius:6px; font-size:12px; color:#1a73e8; font-weight:500; display:none; }
+.signal-card.expanded .signal-recommend { display:block; }
+
+.insight-card { border:1px solid #e8e8e8; border-radius:10px; padding:16px; margin-bottom:12px; background:#fff; }
+.insight-card .insight-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.insight-card .insight-title { font-size:14px; font-weight:600; }
+.insight-card .insight-body { color:#555; font-size:13px; line-height:1.8; }
+
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
+.stat-card { background:#f8f9fa; border-radius:10px; padding:14px; text-align:center; border:1px solid #eee; }
+.stat-card .stat-value { font-size:24px; font-weight:700; color:#1a73e8; }
+.stat-card .stat-label { font-size:11px; color:#5f6368; margin-top:4px; }
+.stat-card .stat-trend { font-size:11px; margin-top:4px; }
+.stat-card.stat-highlight { background:#e8f0fe; border-color:#1a73e8; }
+.trend-up { color:#d93025; font-weight:600; }
+.trend-down { color:#137333; font-weight:600; }
+.trend-flat { color:#5f6368; }
+
+.bar-chart { margin:10px 0; }
+.bar-item { display:flex; align-items:center; margin-bottom:8px; }
+.bar-label { width:100px; font-size:12px; text-align:right; padding-right:10px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bar-track { flex:1; background:#f0f0f0; border-radius:5px; height:22px; position:relative; }
+.bar-fill { background:linear-gradient(90deg, #1a73e8, #4ecdc4); height:100%; border-radius:5px; transition:width 0.6s; min-width:2px; }
+.bar-text { position:absolute; right:8px; top:0; line-height:22px; font-size:11px; color:#333; font-weight:500; }
+
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { background:#f8f9fa; padding:8px 10px; text-align:left; border-bottom:2px solid #e0e0e0; font-weight:600; color:#555; }
+td { padding:8px 10px; border-bottom:1px solid #f0f0f0; }
+tr:hover { background:#f8f9fa; }
+
+.deadline-urgent { background:#fce8e6; color:#d93025; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.deadline-warning { background:#fef7e0; color:#b06000; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.deadline-ok { background:#e6f4ea; color:#137333; padding:2px 8px; border-radius:4px; font-size:11px; }
+
+.timeline { position:relative; padding-left:24px; margin:12px 0; }
+.timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:#e0e0e0; }
+.timeline-item { position:relative; margin-bottom:12px; }
+.timeline-dot { position:absolute; left:-18px; top:4px; width:10px; height:10px; border-radius:50%; background:#1a73e8; border:2px solid #fff; box-shadow:0 0 0 2px #1a73e8; }
+.timeline-date { font-size:11px; color:#999; }
+.timeline-text { font-size:13px; color:#333; line-height:1.5; }
+
+.donut-container { display:flex; align-items:center; gap:24px; margin:10px 0; flex-wrap:wrap; }
+.donut-chart { width:140px; height:140px; border-radius:50%; position:relative; }
+.donut-hole { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80px; height:80px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#1a73e8; }
+.donut-legend { font-size:12px; }
+.donut-legend-item { margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.donut-legend-color { display:inline-block; width:10px; height:10px; border-radius:2px; }
+
+.tag-row { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+.tag { padding:4px 10px; border-radius:14px; font-size:11px; background:#f0f0f0; }
+.tag-hot { background:#fce8e6; color:#d93025; }
+.tag-warm { background:#fef7e0; color:#b06000; }
+.tag-normal { background:#e8f0fe; color:#1a73e8; }
+
+.highlight-box { background:#fffde7; border-left:3px solid #ffd93d; padding:10px 14px; margin:10px 0; border-radius:0 6px 6px 0; font-size:13px; line-height:1.7; }
+.alert-box { background:#fce8e6; border-left:3px solid #d93025; padding:10px 14px; margin:10px 0; border-radius:0 6px 6px 0; font-size:13px; line-height:1.7; }
+
+.signal-priority { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+.priority-today { color:#d93025; }
+.priority-p1 { color:#b06000; }
+.priority-p2 { color:#1a73e8; }
+.signal-action { margin-top:10px; padding:8px 12px; background:#f0f7ff; border-radius:6px; font-size:12px; border:1px dashed #1a73e8; }
+.signal-action a { color:#1a73e8; text-decoration:none; font-weight:500; }
+.signal-action a:hover { text-decoration:underline; }
+
+.overview-trend { font-size:11px; margin-top:4px; }
+.overview-trend-up { color:#d93025; font-weight:600; }
+.overview-trend-down { color:#137333; font-weight:600; }
+.overview-trend-flat { color:#5f6368; }
+
+footer { text-align:center; font-size:11px; color:#999; padding:20px; border-top:1px solid #eee; margin-top:20px; }
+
+
+.badge-teal { background:#e0f7f0; color:#00695c; }
+.platform-tag { display:inline-block; padding:2px 10px; border-radius:10px; font-size:10px; font-weight:600; margin-left:8px; }
+.platform-sgcc { background:#e8f0fe; color:#1a73e8; }
+.platform-csg { background:#e0f7f0; color:#00695c; }
+.cross-compare { border:2px solid #00695c; border-radius:12px; overflow:hidden; margin-bottom:16px; }
+.cross-compare-header { background:linear-gradient(90deg, #1a73e8, #00695c); color:white; padding:12px 18px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; }
+.cross-compare-body { padding:16px; background:#f8fdfb; }
+.compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.compare-card { background:white; border-radius:10px; padding:14px; border:1px solid #eee; }
+.compare-card h4 { font-size:13px; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.compare-card .price-diff { font-size:18px; font-weight:700; margin:4px 0; }
+.compare-card .price-diff-up { color:#d93025; }
+.compare-card .price-diff-down { color:#137333; }
+.compare-card .price-sub { font-size:11px; color:#5f6368; }
+.source-bar { display:flex; height:6px; border-radius:3px; overflow:hidden; margin:8px 0; }
+.source-bar-sgcc { background:#1a73e8; }
+.source-bar-csg { background:#00695c; }
+.bar-fill-south { background:linear-gradient(90deg, #00695c, #26a69a); }
+.info-box { background:#e8f5e9; border-left:3px solid #2e7d32; padding:10px 14px; margin:10px 0; border-radius:0 6px 6px 0; font-size:13px; line-height:1.7; }
+.new-badge { display:inline-block; background:#00695c; color:white; padding:1px 6px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px; vertical-align:middle; }
+tr.row-south { background:#f0fdf9; }
+tr.row-south:hover { background:#e0f7f0; }
+
+</style>
+</head>
+<body>
+<div class="header">
+<div class="date">5鏈?9鏃?鍛ㄤ簲 路 TD-HUB 杈撻厤鐢典骇涓氭湇鍔″钩鍙?br><span style="font-size:10px;opacity:0.7">鍙屽钩鍙扮増 路 鍥界綉ECP + 鍗楃綉渚涘簲閾?/span></div>
+<h1>鏈懆鎬荤粨鏃?<span style="font-size:13px;font-weight:400;opacity:0.8">鍥界綉 + 鍗楃綉鍙屽钩鍙?/span></h1>
+<div class="subtitle">姹囨€诲浗缃戜笌鍗楃綉鏈懆鏍稿績鍙戠幇锛岃緭鍑鸿法骞冲彴甯傚満棰勫垽涓庤鍔ㄥ缓璁?/div>
+</div>
+<div class="container">
+<div class="section"><h2>鏈懆鏍稿績鏁版嵁鎬昏锛堝弻骞冲彴锛?/h2>
+<div class="stats-grid">
+<div class="stat-card stat-highlight"><div class="stat-value">222</div><div class="stat-label">鏈懆鏂板鎷涙爣锛堝悎璁★級</div><div class="overview-trend overview-trend-up">杈冧笂鏈?+212%鈫?/div></div>
+<div class="stat-card"><div class="stat-value">222</div><div class="stat-label">鍥界綉鏂板<span class="platform-tag platform-sgcc">ECP</span></div><div class="overview-trend overview-trend-up">杈冧笂鏈?+212%鈫?/div></div>
+<div class="stat-card"><div class="stat-value">0</div><div class="stat-label">鍗楃綉鏂板<span class="platform-tag platform-csg">CSG</span></div><div class="overview-trend overview-trend-flat">鎸佸钩</div></div>
+<div class="stat-card"><div class="stat-value">560</div><div class="stat-label">瑕嗙洊鐪佷唤锛堝弻骞冲彴锛?/div><div class="overview-trend overview-trend-up">杈冧笂鏈?+44%鈫?/div></div>
+<div class="stat-card"><div class="stat-value">160</div><div class="stat-label">涓嬪懆鎴爣椤圭洰</div><div class="overview-trend overview-trend-up">杈冧笂鏈?+53%鈫?/div></div>
+<div class="stat-card"><div class="stat-value">6</div><div class="stat-label">鍗楃綉涓撴湁瑕嗙洊鐪佷唤<span class="new-badge">NEW</span></div></div>
+</div>
+<div class="source-bar"><div class="source-bar-sgcc" style="width:100.0%"></div><div class="source-bar-csg" style="width:0.0%"></div></div>
+<div style="font-size:11px;color:#5f6368;margin-top:4px;display:flex;justify-content:space-between"><span>鍥界綉ECP 222鏉★紙100.0%锛?/span><span>鍗楃綉渚涘簲閾?0鏉★紙0.0%锛?/span></div>
+</div>
+<div class="section"><h2>馃搮 鏈懆鍏抽敭浜嬩欢鏃堕棿绾匡紙鍙屽钩鍙帮級</h2>
+<div class="timeline">
+<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">鍛ㄤ竴</div><div class="timeline-text"><span class="platform-tag platform-sgcc">鍥界綉</span> 榛戦緳姹?28鏉?/鍥涘窛(22鏉?/姹熻嫃(15鏉?闇€姹傛縺澧?<span class="badge badge-orange">鍖哄煙淇″彿</span><br><span class="platform-tag platform-csg">鍗楃綉</span> 骞夸笢(47鏉?銆佽吹宸?22鏉?闇€姹傛椿璺?<span class="badge badge-teal">鍗楃綉鍖哄煙</span> <span class="badge badge-blue">鍙屽钩鍙?/span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">鍛ㄤ簩</div><div class="timeline-text"><span class="platform-tag platform-sgcc">鍥界綉</span> Top10閲囪喘鏂归泦涓害14.8%<br><span class="platform-tag platform-csg">鍗楃綉</span> 璐靛窞鐢电綉鍏徃(19鏉?娲昏穬 <span class="badge badge-blue">绔炰簤淇″彿</span> <span class="badge badge-blue">閲囪喘鏂?/span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">鍛ㄤ笁</div><div class="timeline-text"><span class="platform-tag platform-sgcc">鍥界綉</span> 搴熸爣鍏憡100鏉′笌涓爣鍏憡鎸佸钩<br><span class="platform-tag platform-csg">鍗楃綉</span> 涓爣鍏憡149鏉＄撼鍏ユ棩鎶ュ垎鏋?<span class="badge badge-teal">鏂板鏁版嵁</span> <span class="badge badge-red">鍚堣</span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">鍛ㄥ洓</div><div class="timeline-text"><span class="platform-tag platform-sgcc">鍥界綉</span> 鏈潵7澶?0涓」鐩埅鏍?br><span class="platform-tag platform-csg">鍗楃綉</span> 0涓埅鏍囬」鐩紙鍗楃綉鏂板锛?<span class="badge badge-red">鎴爣棰勮</span> <span class="badge badge-red">鎴爣</span></div></div></div><div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-date">鍛ㄤ簲</div><div class="timeline-text">鏈懆鎬荤粨锛氬浗缃戦渶姹傛縺澧?+ 鍗楃綉鏁版嵁鎺ュ叆 = 鍙屽钩鍙版儏鎶ヨ鐩?<span class="badge badge-purple">鎬荤粨</span> <span class="badge badge-purple">鎬荤粨</span></div></div></div></div></div>
+<div class="cross-compare">
+<div class="cross-compare-header"><span style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(255,255,255,0.25)">SG</span> 鍥界綉ECP<span style="margin:0 8px;opacity:0.5">vs</span><span style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(255,255,255,0.25)">CS</span> 鍗楃綉渚涘簲閾?span style="font-size:12px;font-weight:400;opacity:0.8;margin-left:auto">璺ㄥ钩鍙版í鍚戝姣?<span class="new-badge">NEW</span></span></div>
+<div class="cross-compare-body">
+<h3 style="font-size:15px;color:#333;margin:0 0 16px">鍙屽钩鍙版暟鎹í鍚戝姣?/h3>
+<div class="compare-grid">
+<div class="compare-card"><h4><span class="platform-tag platform-sgcc">鍥界綉</span> 鏈懆鏂板鎷涙爣</h4><div class="price-diff">222鏉?/div><div class="price-sub">瑕嗙洊32鐪佷唤 路 49鍝佺被</div></div>
+<div class="compare-card"><h4><span class="platform-tag platform-csg">鍗楃綉</span> 鏈懆鏂板鎷涙爣</h4><div class="price-diff">0鏉?/div><div class="price-sub">瑕嗙洊6鐪佷唤 路 14鍝佺被</div></div>
+<div class="compare-card"><h4><span class="platform-tag platform-sgcc">鍥界綉</span> 鍝佺被Top1</h4><div class="price-diff">鏈嶅姟绫绘嫑鏍?/div><div class="price-sub">113鏉?路 鍗犳瘮23.49%</div></div>
+<div class="compare-card"><h4><span class="platform-tag platform-csg">鍗楃綉</span> 鍝佺被Top1</h4><div class="price-diff">鎶€鏈湇鍔?/div><div class="price-sub">16鏉?路 鍗犳瘮22.54%</div></div>
+<div class="compare-card"><h4><span class="platform-tag platform-sgcc">鍥界綉</span> 涓嬪懆鎴爣</h4><div class="price-diff">20涓?/div><div class="price-sub">3澶╁唴绱ф€?0涓?/div></div>
+<div class="compare-card"><h4><span class="platform-tag platform-csg">鍗楃綉</span> 涓嬪懆鎴爣</h4><div class="price-diff">0涓?/div><div class="price-sub">鏂板鍗楃綉鎴爣棰勮</div></div>
+</div>
+<div class="highlight-box" style="margin-top:16px">
+<strong>璺ㄥ钩鍙板叧閿彂鐜帮細</strong><br>
+1. 鍗楃綉涓庡浗缃戣緭閰嶇數鍝佺被楂樺害閲嶅悎锛屽浗缃戜腑鏍囦紒涓氬湪鍗楃綉鏈夊ぉ鐒朵骇鍝佷紭鍔?br>
+2. 鍗楃綉鐪佷唤锛堝箍涓?骞胯タ/浜戝崡/璐靛窞/娴峰崡锛変笌鍥界綉鐪佷唤浜掕ˉ锛屽弻骞冲彴瑕嗙洊鍏ㄥ浗33鐪?br>
+3. 寤鸿鍒嗗搧绫诲埗瀹氱嫭绔嬫姤浠风瓥鐣ワ細鍗楃綉绔炰簤鏇村厖鍒嗭紝鏍囧噯鍖栦骇鍝佷环鏍煎彲鑳戒綆浜庡浗缃?
+</div>
+</div></div>
+<div class="section"><h2>馃摗 鏈懆鏍稿績淇″彿姹囨€?/h2>
+<div class="signal-card expanded">
+<div class="signal-priority priority-today">馃敶 浠婃棩蹇呯湅</div>
+<div class="signal-header"><span class="signal-title">淇″彿涓€锛氬崡缃戞暟鎹娆℃帴鍏モ€斺€斿弻骞冲彴鎯呮姤瑕嗙洊鍏ㄥ浗33鐪?/span><span class="badge badge-red">鏈懆鏈€澶т俊鍙?/span></div>
+<div class="signal-body">
+<strong>[鏁版嵁]</strong> 鍗楃綉渚涘簲閾剧粺涓€鏈嶅姟骞冲彴锛坆idding.csg.cn锛夋湰鍛ㄦ寮忔帴鍏D-HUB鏃ユ姤锛屾柊澧?49鏉″崡缃戝叕鍛婃暟鎹€傚崡缃戣鐩栧箍涓溿€佸箍瑗裤€佷簯鍗椼€佽吹宸炪€佹捣鍗椼€佹繁鍦崇瓑6鐪佷唤锛屼笌鍥界綉27鐪佸舰鎴愪簰琛ャ€傚弻骞冲彴鍚堣瑕嗙洊33涓渷浠姐€?br>
+<strong>[鍥犵礌]</strong> 鍗楃綉浣滀负绗簩澶х數缃戦噰璐富浣擄紝骞撮噰璐妯¤秴鍗冧嚎銆傛帴鍏ュ崡缃戞暟鎹悗锛孴D-HUB鏃ユ姤浠嶽鍗曚竴鍥界綉鎯呮姤]鍗囩骇涓篬鍏ㄥ浗鐢靛姏閲囪喘鍏ㄦ櫙鎯呮姤]銆傚崡缃戜笌鍥界綉鐨勮澶囨爣鍑嗛珮搴︿竴鑷达紙鍧囬伒寰浗鏍囷級锛屽浗缃戜緵搴斿晢杩涘叆鍗楃綉甯傚満鐨勪骇鍝佸鍨掑嚑涔庝负闆躲€?br>
+<strong>[寤鸿]</strong> 璇勪及鍏徃浜у搧绾垮湪鍗楃綉浜旂渷鐨勫尮閰嶅害銆傞噸鐐瑰叧娉ㄥ箍涓滃競鍦猴紙鍗楃綉鎬婚儴鎵€鍦ㄥ湴锛岄噰璐噺鏈€澶э級銆傚鏋滃叕鍙稿凡鏈夊浗缃戜腑鏍囦笟缁╋紝鍗楃綉鎶曟爣鏃跺彲鐩存帴澶嶇敤鎶€鏈柟妗堛€傞噸鐐规姇鍏ュ晢鍔″眰闈細浜嗚В鍗楃綉璇勬爣瑙勫垯銆佸缓绔嬪尯鍩熸湇鍔″洟闃熴€?
+</div>
+<div class="signal-recommend">馃挕 鎴樼暐鍐崇瓥锛氬崡缃戝箍涓滄槸杩涘叆鍗楃綉甯傚満鐨勬渶浣冲垏鍏ョ偣锛岃瘎浼板叕鍙镐骇鍝佸尮閰嶅害锛屼紭鍏堜粠骞夸笢寮€濮?/div>
+<div class="signal-action"><a href="#" target="_blank">鏌ョ湅鍗楃綉浜旂渷甯傚満璇勪及 鈫?/a> | <a href="#" target="_blank">鍗楃綉鎶曟爣鎸囧崡 鈫?/a></div>
+</div>
+<div class="signal-card">
+<div class="signal-priority priority-p1">馃煚 閲嶈淇″彿</div>
+<div class="signal-header"><span class="signal-title">淇″彿浜岋細鍙屽钩鍙板悎璁℃湰鍛ㄦ柊澧?22鏉℃嫑鏍団€斺€斿浗缃?22鏉?+ 鍗楃綉0鏉?/span><span class="badge badge-blue">瑙勬ā淇″彿</span></div>
+<div class="signal-body">
+<strong>[鏁版嵁]</strong> 鏈懆鍙屽钩鍙板悎璁℃柊澧炴嫑鏍?22鏉°€傚叾涓浗缃慐CP 222鏉★紙100.0%锛夛紝鍗楃綉渚涘簲閾?0鏉★紙0.0%锛夈€傚崡缃戝崟鐪侊紙骞夸笢锛夋嫑鏍囬噺瓒呰繃鍥界綉澶氭暟鐪佷唤锛岄噰璐泦涓害鏇撮珮銆?br>
+<strong>[鍥犵礌]</strong> 鍙屽钩鍙版暟鎹鐩栧悗锛岀敤鎴峰彲鑾峰緱鍏ㄥ浗鐢靛姏閲囪喘甯傚満鐨勫叏鏅鍥俱€傚崡缃戣櫧鐒舵€婚噺灏忎簬鍥界綉锛屼絾閲囪喘闆嗕腑搴﹂珮銆佸搧绫讳笌鍥界綉閲嶅悎搴﹂珮锛屽浜庡凡缁忓湪鍥界綉娣辫€曠殑渚涘簲鍟嗭紝鍗楃綉鏄ぉ鐒剁殑澧為噺甯傚満銆?br>
+<strong>[寤鸿]</strong> 灏嗗崡缃戠撼鍏ユ棩甯告姇鏍囩洃鎺ц寖鍥淬€傞噸鐐瑰叧娉ㄥ箍涓滅數缃戯紙鍗楃綉鏈€澶ч噰璐柟锛夌殑鎷涙爣鍏憡銆傚姣斿垎鏋愬浗缃戝拰鍗楃綉鍚岀被浜у搧鐨勬嫑鏍囬噺瓒嬪娍锛屽垽鏂搧绫婚渶姹傛槸鍚﹀悓姝ュ彉鍖栥€?
+</div>
+<div class="signal-recommend">馃挕 澧為噺绛栫暐锛氬皢鍗楃綉绾冲叆鏃ュ父鎶曟爣鐩戞帶锛屽箍涓滅數缃戜綔涓虹涓€浼樺厛绾?/div>
+<div class="signal-action"><a href="#" target="_blank">鏌ョ湅鍙屽钩鍙版嫑鏍囧姣?鈫?/a> | <a href="#" target="_blank">璁剧疆鍗楃綉璁㈤槄 鈫?/a></div>
+</div>
+<div class="signal-card">
+<div class="signal-priority priority-p2">馃數 鍙傝€冧俊鍙?/div>
+<div class="signal-header"><span class="signal-title">淇″彿涓夛細鍗楃綉鍝佺被缁撴瀯涓庡浗缃戦珮搴﹂噸鍚堚€斺€旇兘鍔涘彲鐩存帴杩佺Щ</span><span class="badge badge-green">鍝佺被淇″彿</span></div>
+<div class="signal-body">
+<strong>[鏁版嵁]</strong> 鍥界綉Top鍝佺被锛氭湇鍔＄被鎷涙爣锛?13鏉★級锛涘崡缃慣op鍝佺被锛氭妧鏈湇鍔★紙16鏉★級銆備袱骞冲彴杈撻厤鐢垫牳蹇冭澶囷紙绠卞彉/鐜綉鏌?閰嶅彉缁堢/寮€鍏虫煖锛夊搧绫婚珮搴﹂噸鍚堛€?br>
+<strong>[鍥犵礌]</strong> 鍗楃綉涓庡浗缃戠殑璁惧閲囪喘鏍囧噯鍧囬伒寰浗鏍囧拰琛屼笟鏍囧噯锛屼骇鍝佹棤闇€閲嶆柊璁捐鎴栬璇佸嵆鍙姇鏍囥€傚浗缃戜緵搴斿晢杩涘叆鍗楃綉鐨刐浜у搧澹佸瀿]鍑犱箮涓洪浂锛屼富瑕佸樊寮傚湪鍟嗗姟灞傞潰锛堟姤浠风瓥鐣ャ€佸尯鍩熸湇鍔¤兘鍔涖€佸鎴峰叧绯伙級銆?br>
+<strong>[寤鸿]</strong> 濡傛灉鍏徃宸叉湁鍥界綉涓爣涓氱哗锛屽崡缃戞姇鏍囨椂鍙洿鎺ュ鐢ㄦ妧鏈柟妗堝拰浜у搧璧勬枡銆傞噸鐐规姇鍏ュ晢鍔″眰闈細浜嗚В鍗楃綉璇勬爣瑙勫垯銆佸缓绔嬪尯鍩熸湇鍔″洟闃熴€?
+</div>
+<div class="signal-recommend">馃挕 鑳藉姏澶嶇敤锛氬浗缃戞妧鏈柟妗堝彲鐩存帴鐢ㄤ簬鍗楃綉鎶曟爣锛岄噸鐐规姇鍏ュ晢鍔″拰鍖哄煙鏈嶅姟</div>
+<div class="signal-action"><a href="#" target="_blank">鏌ョ湅鍗楃綉鎶曟爣鎸囧崡 鈫?/a> | <a href="#" target="_blank">鍗楃綉鍟嗗姟鏂囦欢妯℃澘 鈫?/a></div>
+</div>
+</div>
+<div class="section"><h2>馃椇锔?鏈懆鐪佷唤鍒嗗竷 Top 10锛堝弻骞冲彴鍚堝苟锛?/h2>
+<div class="bar-item"><div class="bar-label">骞夸笢<span class="platform-tag platform-sgcc">鍙屽钩鍙?/span></div><div class="bar-track"><div class="bar-fill " style="width:100%"></div><div class="bar-text">94鏉?(21.1%)</div></div></div>
+<div class="bar-item"><div class="bar-label">鍖椾含<span class="platform-tag platform-sgcc">鍥界綉</span></div><div class="bar-track"><div class="bar-fill " style="width:84%"></div><div class="bar-text">79鏉?(17.7%)</div></div></div>
+<div class="bar-item"><div class="bar-label">鎬婚儴<span class="platform-tag platform-sgcc">鍙屽钩鍙?/span></div><div class="bar-track"><div class="bar-fill " style="width:61%"></div><div class="bar-text">58鏉?(13.0%)</div></div></div>
+<div class="bar-item"><div class="bar-label">璐靛窞<span class="platform-tag platform-sgcc">鍙屽钩鍙?/span></div><div class="bar-track"><div class="bar-fill " style="width:46%"></div><div class="bar-text">44鏉?(9.9%)</div></div></div>
+<div class="bar-item"><div class="bar-label">浜戝崡<span class="platform-tag platform-sgcc">鍙屽钩鍙?/span></div><div class="bar-track"><div class="bar-fill " style="width:36%"></div><div class="bar-text">34鏉?(7.6%)</div></div></div>
+<div class="bar-item"><div class="bar-label">榛戦緳姹?span class="platform-tag platform-sgcc">鍥界綉</span></div><div class="bar-track"><div class="bar-fill " style="width:32%"></div><div class="bar-text">31鏉?(7.0%)</div></div></div>
+<div class="bar-item"><div class="bar-label">娴峰崡<span class="platform-tag platform-sgcc">鍙屽钩鍙?/span></div><div class="bar-track"><div class="bar-fill " style="width:31%"></div><div class="bar-text">30鏉?(6.7%)</div></div></div>
+<div class="bar-item"><div class="bar-label">姹熻嫃<span class="platform-tag platform-sgcc">鍥界綉</span></div><div class="bar-track"><div class="bar-fill " style="width:29%"></div><div class="bar-text">28鏉?(6.3%)</div></div></div>
+<div class="bar-item"><div class="bar-label">鍥涘窛<span class="platform-tag platform-sgcc">鍥界綉</span></div><div class="bar-track"><div class="bar-fill " style="width:25%"></div><div class="bar-text">24鏉?(5.4%)</div></div></div>
+<div class="bar-item"><div class="bar-label">涓婃捣<span class="platform-tag platform-sgcc">鍥界綉</span></div><div class="bar-track"><div class="bar-fill " style="width:25%"></div><div class="bar-text">24鏉?(5.4%)</div></div></div>
+<div style="font-size:11px;color:#5f6368;margin-top:8px;display:flex;gap:16px"><span><span style="display:inline-block;width:10px;height:10px;background:linear-gradient(90deg,#1a73e8,#4ecdc4);border-radius:2px;vertical-align:middle;margin-right:4px"></span>鍥界綉鐪佷唤</span><span><span style="display:inline-block;width:10px;height:10px;background:linear-gradient(90deg,#00695c,#26a69a);border-radius:2px;vertical-align:middle;margin-right:4px"></span>鍗楃綉鐪佷唤</span></div></div>
+<div class="section" style="border-left:3px solid #00695c">
+<h2 style="color:#00695c;border-left-color:#00695c">鍗楃綉甯傚満閫熻 <span class="new-badge">NEW</span></h2>
+<div style="font-size:13px;color:#555;margin-bottom:16px">鏈懆鏄崡缃戞暟鎹娆＄撼鍏ユ棩鎶ャ€備互涓嬩负鍗楃綉浜旂渷鍏抽敭鎸囨爣锛屽府鍔╁揩閫熷缓绔嬪崡缃戝競鍦鸿鐭ャ€?/div>
+<h3>鍗楃綉鐪佷唤鎷涙爣閲?/h3>
+<div class="bar-chart"><div class="bar-item"><div class="bar-label">骞夸笢</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div><div class="bar-text">47鏉?(31.5%)</div></div></div><div class="bar-item"><div class="bar-label">璐靛窞</div><div class="bar-track"><div class="bar-fill" style="width:46%"></div><div class="bar-text">22鏉?(14.8%)</div></div></div><div class="bar-item"><div class="bar-label">浜戝崡</div><div class="bar-track"><div class="bar-fill" style="width:36%"></div><div class="bar-text">17鏉?(11.4%)</div></div></div><div class="bar-item"><div class="bar-label">娴峰崡</div><div class="bar-track"><div class="bar-fill" style="width:31%"></div><div class="bar-text">15鏉?(10.1%)</div></div></div><div class="bar-item"><div class="bar-label">鎬婚儴</div><div class="bar-track"><div class="bar-fill" style="width:31%"></div><div class="bar-text">15鏉?(10.1%)</div></div></div><div class="bar-item"><div class="bar-label">骞胯タ</div><div class="bar-track"><div class="bar-fill" style="width:23%"></div><div class="bar-text">11鏉?(7.4%)</div></div></div></div></div>
+<h3>鍗楃綉鍝佺被缁撴瀯</h3>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value" style="color:#00695c">16</div><div class="stat-label">鎶€鏈湇鍔?/div><div class="stat-trend" style="color:#00695c">鍗犳瘮22.54%</div></div>
+<div class="stat-card"><div class="stat-value" style="color:#00695c">10</div><div class="stat-label">瀹夊叏鏈嶅姟</div><div class="stat-trend" style="color:#00695c">鍗犳瘮14.08%</div></div>
+<div class="stat-card"><div class="stat-value" style="color:#00695c">9</div><div class="stat-label">璁捐鏈嶅姟</div><div class="stat-trend" style="color:#00695c">鍗犳瘮12.68%</div></div>
+<div class="stat-card"><div class="stat-value" style="color:#00695c">6</div><div class="stat-label">鍜ㄨ鏈嶅姟</div><div class="stat-trend" style="color:#00695c">鍗犳瘮8.45%</div></div>
+</div>
+<h3>鍗楃綉娲昏穬閲囪喘鏂?Top 5</h3>
+<table><tr><th>閲囪喘鏂?/th><th>鍏憡鏁?/th><th>涓昏鍝佺被</th></tr><tr><td>璐靛窞鐢电綉鍏徃</td><td>19鏉?/td><td>鐗╄祫/鏈嶅姟/宸ョ▼</td></tr><tr><td>骞夸笢鐢电綉鍏徃</td><td>18鏉?/td><td>鐗╄祫/鏈嶅姟/宸ョ▼</td></tr><tr><td>娴峰崡鐢电綉鍏徃</td><td>13鏉?/td><td>鐗╄祫/鏈嶅姟/宸ョ▼</td></tr><tr><td>鍗楁柟鐢电綉鍏徃</td><td>13鏉?/td><td>鐗╄祫/鏈嶅姟/宸ョ▼</td></tr><tr><td>娣卞湷鐢电綉鍏徃</td><td>12鏉?/td><td>鐗╄祫/鏈嶅姟/宸ョ▼</td></tr></table>
+<div class="info-box">
+<strong>鍗楃綉甯傚満鍏ラ棬寤鸿锛?/strong><br>
+1. <strong>棣栭€夊箍涓滐細</strong> 鍗楃綉鎬婚儴鎵€鍦ㄥ湴锛岄噰璐噺鏈€澶с€佷俊鎭渶閫忔槑<br>
+2. <strong>浜у搧绛栫暐锛?/strong> 鍥界綉鎶€鏈柟妗堝彲鐩存帴澶嶇敤锛岄噸鐐硅皟鏁存姤浠风瓥鐣?br>
+3. <strong>绔炰簤鏍煎眬锛?/strong> 鍗楃綉渚涘簲鍟嗛泦涓害浣庝簬鍥界綉锛屾柊杩涘叆鑰呮湁鏈轰細<br>
+4. <strong>鏁版嵁璇存槑锛?/strong> 鍗楃綉鏁版嵁婧?bidding.csg.cn锛屾瘡鏃ヨ嚜鍔ㄦ洿鏂?
+</div>
+</div>
+
+</div>
+<footer>TD-HUB 杈撻厤鐢典骇涓氭湇鍔″钩鍙?路 鎷涙姇鏍囪祫璁棩鎶?路 鍙屽钩鍙扮増<br>鏁版嵁鏉ユ簮锛氬浗缃慐CP 2.0 + 鍗楃綉渚涘簲閾剧粺涓€鏈嶅姟骞冲彴锛坆idding.csg.cn锛?br>璁㈤槄璁剧疆锛?a href="#">淇敼璁㈤槄鍋忓ソ</a> 路 <a href="#">鏌ョ湅骞冲彴瀹屾暣鍔熻兘</a> 路 <a href="#">閫€璁?/a></footer>
+
+<script>
+document.querySelectorAll('.signal-card').forEach(function(card){
+    card.addEventListener('click', function(e){
+        // 濡傛灉鐐瑰嚮鐨勬槸琛ㄦ牸绛変氦浜掑厓绱狅紝涓嶆姌鍙?
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+        card.classList.toggle('expanded');
+    });
+});
+// 棣栦釜淇″彿鍗＄墖榛樿灞曞紑
+var first = document.querySelector('.signal-card');
+if (first) first.classList.add('expanded');
+</script>
+
+</body>
+</html>
